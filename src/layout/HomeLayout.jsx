@@ -4,10 +4,12 @@ import LatestNews from '../components/LatestNews';
 import LeftNavbar from '../components/layout-components/LeftNavbar';
 import RightNavbar from '../components/layout-components/RightNavbar';
 import Navbar from '../components/Navbar';
-
+import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 const HomeLayout = () => {
   return (
     <div className="font-poppins">
+      <ToastContainer />
       <header>
         <Header />
         <section className="w-11/12 mx-auto">

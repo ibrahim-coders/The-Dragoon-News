@@ -1,6 +1,36 @@
-import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../provider/AuthProvider';
+
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const Login = () => {
+  const [error, setError] = useState({});
+  const { userLogin, setUser } = useContext(AuthContext);
+  const location = useLocation();
+  console.log(location);
+  const navigate = useNavigate();
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const form = new FormData(e.target);
+
+    const email = form.get('email');
+    const password = form.get('password');
+    console.log({ email, password });
+    userLogin(email, password)
+      .then(result => {
+        const user = result.user;
+        setUser(user);
+        toast.success('Login successful!');
+        navigate(location?.state ? location.state : '/');
+      })
+      .catch(err => {
+        setError({ ...error, login: err.code });
+      });
+  };
+
   return (
     <div className="flex  items-center justify-center min-h-screen bg-gray-100 ">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg ">
@@ -10,7 +40,7 @@ const Login = () => {
         </h2>
 
         {/* Login Form */}
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email Field */}
           <div>
             <label
@@ -43,6 +73,14 @@ const Login = () => {
               required
               className="w-full px-4 py-2 mt-1 text-gray-900 border rounded-md border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none"
             />
+            {error.login && (
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-rose-600"
+              >
+                {error.login}
+              </label>
+            )}
           </div>
 
           {/* Submit Button */}

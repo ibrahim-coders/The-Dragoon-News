@@ -1,14 +1,23 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../provider/AuthProvider';
 
 const Register = () => {
-  const { createNewUser, setUser } = useContext(AuthContext);
+  const [error, setError] = useState({});
+
+  const { createNewUser, setUser, updataUserProfile } = useContext(AuthContext);
+  const location = useLocation();
+  console.log(location);
+  const navigate = useNavigate();
   console.log(createNewUser);
   const handleRegisterSubmit = e => {
     e.preventDefault();
     const form = new FormData(e.target);
     const name = form.get('name');
+    if (name.length < 5) {
+      setError({ ...error, name: 'must be more then 5 character login' });
+      return;
+    }
     const photoUrl = form.get('photoUrl');
     const email = form.get('email');
     const password = form.get('password');
@@ -18,6 +27,14 @@ const Register = () => {
       .then(result => {
         setUser(result.user);
         console.log(result.user);
+        updataUserProfile({ displayName: name, photoURL: photo })
+          .then(() => {
+            navigate('/');
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        // navigate(location?.state ? location.state : '/');
       })
       .catch(error => {
         console.log('ERROR', error);
@@ -48,6 +65,14 @@ const Register = () => {
               required
               className="w-full px-4 py-2 mt-1 border rounded-md text-gray-900 border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none"
             />
+            {error.name && (
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-rose-600"
+              >
+                {error.name}
+              </label>
+            )}
           </div>
 
           {/* Photo URL Field */}
