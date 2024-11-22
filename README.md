@@ -1,8 +1,1 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Key Features: Responsive Design: Optimized for mobile, tablet, and desktop views. User Interaction Forms: Contact forms with live validation and data submission. Product Dashboard: Dynamic management of product listings and inventory. Category-based Navigation: Filter products based on categories. Data Persistence: Uses local storage for saving user data and contact information. React Fundamental Concepts Used: Components, Props, and State Hooks (useState, useEffect) React Router for navigation Conditional Rendering Dynamic Page Title
